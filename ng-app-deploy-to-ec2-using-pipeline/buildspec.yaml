@@ -1,27 +1,21 @@
-version: 0.1
+
+# Do not change version. This is the version of aws buildspec, not the version of your buldspec file.
+version: 0.2
 
 phases:
   install:
+    runtime-versions:
+        nodejs: 12
     commands:
-      - echo installing nodejs...
-      - curl -sL https://deb.nodesource.com/setup_12.x | bash -
-      - apt-get install -y nodejs  #aws code build use ubuntu environement
-  pre_build:
-    commands:
-      - echo installing dependencies...
-      - npm i -g @angular/cli
-      - npm install
+        - echo Installing source NPM dependencies...
+        - npm install
+        - npm install -g @angular/cli
   build:
     commands:
-      # - echo testing...
-      # - echo building...
-      - ng build --prod
-  post_build:
-    commands:
-      - mv appspec.yml ./dist/my-dream-app
-      - mv scripts ./dist/my-dream-app
+        - echo Build started 
+        - ng build
 artifacts:
-  files:
-    - "**/*"
-  discard-paths: no
-  base-directory: dist/my-dream-app
+    files:
+        - '**/*'
+    base-directory: 'dist*'
+    discard-paths: yes
